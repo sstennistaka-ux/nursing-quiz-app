@@ -169,11 +169,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans",san
     <div class="import-zone" id="import-zone">
       <span class="icon">📊</span>
       <h3>Excelをインポート（更新・追加）</h3>
-      <p>同名ファイル → 問題を更新　新しいファイル → 追加（最大10件）</p>
+      <p>同名ファイル → 問題を更新　新しいファイル → 追加（最大25件）</p>
     </div>
     <input type="file" id="file-input" accept=".xlsx,.xls">
-    <div class="extra-slot-label" id="extra-slot-label">追加可能: 10 / 10</div>
-    <div class="import-limit-msg" id="import-limit-msg">追加ファイルが上限（10件）に達しました。不要なファイルを削除してください。</div>
+    <div class="extra-slot-label" id="extra-slot-label">追加可能: 25 / 25</div>
+    <div class="import-limit-msg" id="import-limit-msg">追加ファイルが上限（25件）に達しました。不要なファイルを削除してください。</div>
     <div class="file-list-wrap">
       <div id="file-list"></div>
     </div>
@@ -299,7 +299,7 @@ let answered=false, mode="all", prevScreen="screen-import";
 let currentFileName="";
 let selectedIdxs=[];
 
-const LS_EXTRA  = "quiz_extra_files_v3";   // 追加ファイル最大10件
+const LS_EXTRA  = "quiz_extra_files_v3";   // 追加ファイル最大25件
 const LS_WRONG  = "quiz_wrong_set_v3";
 const LS_BUILTIN_OVERRIDE = "quiz_builtin_override_v3"; // 同名更新分
 const LS_PAUSE   = "quiz_pause_v1";   // ファイルごとの中断位置
@@ -432,8 +432,8 @@ function renderImportScreen(){
   });
 
   // 追加枠の残り
-  const remaining = 10 - extra.length;
-  document.getElementById("extra-slot-label").textContent = "追加可能: "+ remaining +" / 10";
+  const remaining = 25 - extra.length;
+  document.getElementById("extra-slot-label").textContent = "追加可能: "+ remaining +" / 25";
   document.getElementById("import-zone").style.opacity = remaining<=0 ? "0.4" : "1";
   document.getElementById("import-zone").style.pointerEvents = remaining<=0 ? "none" : "auto";
   document.getElementById("import-limit-msg").style.display = remaining<=0 ? "block" : "none";
@@ -737,7 +737,7 @@ document.getElementById("file-input").onchange=(e)=>{
         const idx=extra.findIndex(f=>f.name===fileName);
         const entry={name:fileName,questions:parsed,savedAt:new Date().toLocaleDateString("ja-JP")};
         if(idx>=0){ extra[idx]=entry; }
-        else if(extra.length>=10){ alert("追加できるファイルは10個までです。"); return; }
+        else if(extra.length>=25){ alert("追加できるファイルは25個までです。"); return; }
         else { extra.push(entry); }
         saveExtra(extra);
         alert("「"+fileName+"」を追加しました（"+parsed.length+"問）");
